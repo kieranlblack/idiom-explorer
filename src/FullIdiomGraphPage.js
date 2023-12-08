@@ -48,12 +48,11 @@ const FullIdiomGraphPage = () => {
     )
   ) : (
     <Stack style={{ flex: 1, textAlign: "center" }}>
-      <Typography sx={{ textTransform: "uppercase" }}>
-        Are you sure you want to render this? It will probably crash your browser unless you have an RTX 3000+ gen or
-        equivalent gpu.
+      <Typography>
+        你确定想要渲染吗？除非你的电脑配备了RTX 30或等效的显卡系列，否则很可能会导致你的浏览器崩溃。
       </Typography>
       <Button variant="outlined" color="error" onClick={() => setConfirmed(true)}>
-        确认
+        我确定
       </Button>
     </Stack>
   );
