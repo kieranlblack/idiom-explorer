@@ -1,30 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import CreatableSelect from "react-select/creatable";
-
-const components = {
-  DropdownIndicator: null,
-};
 
 const createOption = (label) => ({
   label,
   value: label,
 });
 
-const MultiSelectTextInput = ({ onValueChange, defaultValue, ...other }) => {
+const MultiSelectTextInput = ({ value, setValue, ...other }) => {
   const [inputValue, setInputValue] = React.useState("");
-  const [value, setValue] = React.useState(defaultValue.map((value) => ({ value: value, label: value })));
-
-  useEffect(() => {
-    onValueChange(value.map(({ value }) => value));
-  }, [onValueChange, value]);
 
   const handleKeyDown = (event) => {
     if (!inputValue) return;
     switch (event.key) {
       case "Enter":
       case "Tab":
-        setValue((prev) => [...prev, createOption(inputValue)]);
+        setValue((prev) => [...prev, inputValue]);
         setInputValue("");
         event.preventDefault();
         break;
@@ -34,15 +25,15 @@ const MultiSelectTextInput = ({ onValueChange, defaultValue, ...other }) => {
 
   return (
     <CreatableSelect
-      components={components}
+      components={{ DropdownIndicator: null }}
       inputValue={inputValue}
       isClearable
       isMulti
       menuIsOpen={false}
-      onChange={(newValue) => setValue(newValue)}
+      onChange={(newValue) => setValue(newValue.map(({ value }) => value))}
       onInputChange={(newValue) => setInputValue(newValue)}
       onKeyDown={handleKeyDown}
-      value={value}
+      value={value.map(createOption)}
       {...other}
     />
   );

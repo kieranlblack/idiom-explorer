@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Stack, TextField } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import IdiomChain from "./IdiomChain";
 import { findShortestPath } from "./idioms";
 import Path from "./Path";
@@ -9,6 +9,7 @@ const ShortestPathPage = () => {
   const [endIdiom, setEndIdiom] = useState("");
   const [rawGraphData, setRawGraphData] = useState();
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -33,8 +34,27 @@ const ShortestPathPage = () => {
   const [shortestPath, setShortestPath] = useState([]);
 
   const onClick = () => {
+    if (!startIdiom || !endIdiom) {
+      return;
+    }
+
+    if (!rawGraphData.nodes.includes(startIdiom) || !rawGraphData.nodes.includes(endIdiom)) {
+      setError(true);
+      return;
+    }
+
     const newShortestPath = findShortestPath(startIdiom, endIdiom, rawGraphData);
+    if (!newShortestPath.length) {
+      setError(true);
+      return;
+    }
     setShortestPath(newShortestPath);
+  };
+
+  const setIdiom = (event, setter) => {
+    setError(false);
+    setShortestPath([]);
+    setter(event.target.value);
   };
 
   return (
@@ -44,21 +64,24 @@ const ShortestPathPage = () => {
           label="开头"
           variant="outlined"
           placeholder="输入成语"
-          onChange={(event) => setStartIdiom(event.target.value)}
+          onChange={(event) => setIdiom(event, setStartIdiom)}
         />
         <IdiomChain length={3} />
         <TextField
           label="结尾"
           variant="outlined"
           placeholder="输入成语"
-          onChange={(event) => setEndIdiom(event.target.value)}
+          onChange={(event) => setIdiom(event, setEndIdiom)}
         />
       </Stack>
-
       <Button variant="outlined" onClick={onClick} disabled={!loaded} fullWidth={false}>
         启动！
       </Button>
-
+      {error && (
+        <Typography color="error">
+          无法把"{startIdiom}"与"{endIdiom}"接起来
+        </Typography>
+      )}
       <Path path={shortestPath} />
     </Stack>
   );

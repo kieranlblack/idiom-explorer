@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import FullGraph from "./FullGraph";
 import { Button, Stack, Typography } from "@mui/material";
+import Loading from "./Loading";
 
 const FullIdiomGraphPage = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
@@ -43,7 +44,7 @@ const FullIdiomGraphPage = () => {
         <FullGraph graphData={graphData} />
       </div>
     ) : (
-      <div>Loading...</div>
+      <Loading />
     )
   ) : (
     <Stack style={{ flex: 1, textAlign: "center" }}>

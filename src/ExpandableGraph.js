@@ -22,16 +22,12 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
   }, [graphData, forcedVisibleNodeIds]);
 
   const getPrunedGraphData = useCallback(() => {
-    if (!Object.keys(nodeIdToNode).length) {
-      return;
-    }
-
     const nodeToObject = (node) => (typeof node === "object" ? node : nodeIdToNode[node]);
 
     const visibleNodes = new Set();
 
     const visited = new Set();
-    const queue = [...forcedVisibleNodeIds.map((nodeId) => nodeIdToNode[nodeId])];
+    const queue = [...forcedVisibleNodeIds.map((nodeId) => nodeIdToNode[nodeId]).filter((node) => !!node)];
     // dfs to discover all nodes which should be displayed
     while (queue.length > 0) {
       const currNode = queue.pop();
