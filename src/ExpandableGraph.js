@@ -120,8 +120,8 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
 
   const getNodeLabel = (node) => {
     const idiomInfo = getIdiomInfo(node.id);
-    return idiomInfo["pinyin"];
-  }
+    return `拼音：${idiomInfo["pinyin"]}<br />解释：${idiomInfo["explanation"]}`;
+  };
 
   return (
     // <ForceGraph3D
@@ -136,7 +136,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
       nodeCanvasObject={nodeCanvasObject}
       nodePointerAreaPaint={nodePointerAreaPaint}
       linkDirectionalParticles={1}
-      linkDirectionalArrowLength={3.5}
+      linkDirectionalArrowLength={4}
       linkDirectionalArrowRelPos={1}
       nodeLabel={getNodeLabel}
       onNodeClick={handleNodeClick}

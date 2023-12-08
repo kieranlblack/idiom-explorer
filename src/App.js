@@ -1,50 +1,36 @@
-import React, { useEffect, useState } from "react";
-
-import MultiSelectTextInput from "./MultiSelectTextInput";
-
-import ExpandableIdiomGraph from "./ExpandableIdiomGraph";
+import React from "react";
+import { Box, Tab, Tabs } from "@mui/material";
+import CustomTabPanel from "./CustomTabPanel";
+import IdiomSearchGraphPage from "./IdiomSearchGraphPage";
+import FullIdiomGraphPage from "./FullIdiomGraphPage";
+import ShortestPathPage from "./ShortestPathPage";
 
 const App = () => {
-  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
-  const [loaded, setLoaded] = useState(false);
+  const [value, setValue] = React.useState(0);
 
-  useEffect(() => {
-    let isSubscribed = true;
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
-    const fetchData = async () => {
-      const response = await fetch("/idiom_data/full_graph_data.json");
-      const rawData = await response.json();
-
-      const data = {
-        nodes: rawData.nodes.map((node) => ({ id: node })),
-        links: rawData.edges.map(([src_idiom, dst_idiom]) => ({
-          source: src_idiom,
-          target: dst_idiom,
-        })),
-      };
-
-      if (isSubscribed) {
-        setGraphData(data);
-        setLoaded(true);
-      }
-    };
-
-    fetchData().catch(console.error);
-    return () => {
-      isSubscribed = false;
-    };
-  }, []);
-
-  const defaultIdioms = ["驾鹤西游"];
-  const [selectedIdioms, setSelectedIdioms] = useState(defaultIdioms);
-
-  return loaded ? (
+  return (
     <>
-      <MultiSelectTextInput onValueChange={setSelectedIdioms} defaultValue={defaultIdioms} />
-      <ExpandableIdiomGraph graphData={graphData} forcedVisibleNodeIds={selectedIdioms} />
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={value} onChange={handleChange}>
+          <Tab label="Search Graph" />
+          <Tab label="Full Graph" />
+          <Tab label="Shortest Path" />
+        </Tabs>
+      </Box>
+      <CustomTabPanel value={value} index={0}>
+        <IdiomSearchGraphPage />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <FullIdiomGraphPage />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <ShortestPathPage />
+      </CustomTabPanel>
     </>
-  ) : (
-    <div>Loading...</div>
   );
 };
 

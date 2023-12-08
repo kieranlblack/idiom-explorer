@@ -11,7 +11,7 @@ const createOption = (label) => ({
   value: label,
 });
 
-const MultiSelectTextInput = ({ onValueChange, defaultValue }) => {
+const MultiSelectTextInput = ({ onValueChange, defaultValue, ...other }) => {
   const [inputValue, setInputValue] = React.useState("");
   const [value, setValue] = React.useState(defaultValue.map((value) => ({ value: value, label: value })));
 
@@ -42,8 +42,8 @@ const MultiSelectTextInput = ({ onValueChange, defaultValue }) => {
       onChange={(newValue) => setValue(newValue)}
       onInputChange={(newValue) => setInputValue(newValue)}
       onKeyDown={handleKeyDown}
-      placeholder="Enter some idioms..."
       value={value}
+      {...other}
     />
   );
 };
