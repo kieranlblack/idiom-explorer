@@ -1,23 +1,10 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-const  CustomTabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            {children}
-          </Box>
-        )}
-      </div>
-    );
-  }
+const CustomTabPanel = ({ children, ...other }) => (
+  <div style={{ display: "flex", flexDirection: "column", flex: 1 }} {...other}>
+    <Box sx={{ p: 2, flex: 1, display: "flex" }}>{children}</Box>
+  </div>
+);
 
 export default CustomTabPanel;

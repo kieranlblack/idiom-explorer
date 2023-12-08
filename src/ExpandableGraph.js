@@ -2,7 +2,7 @@ import React, { useCallback, useState, useMemo, useEffect } from "react";
 
 import { ForceGraph2D } from "react-force-graph";
 import { getIdiomInfo } from "./idioms";
-// import SpriteText from "three-spritetext";
+import { SizeMe } from "react-sizeme";
 
 const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
   const nodeIdToNode = useMemo(() => {
@@ -35,9 +35,6 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
     // dfs to discover all nodes which should be displayed
     while (queue.length > 0) {
       const currNode = queue.pop();
-      if (visited.has(currNode)) {
-        continue;
-      }
 
       visited.add(currNode);
       visibleNodes.add(currNode);
@@ -47,7 +44,10 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
       }
 
       for (const outEdge of currNode.outEdges) {
-        queue.push(nodeToObject(outEdge.target));
+        const targetNode = nodeToObject(outEdge.target);
+        if (!visited.has(targetNode)) {
+          queue.push(targetNode);
+        }
       }
     }
 
@@ -84,16 +84,6 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
     setPrunedGraphData(getPrunedGraphData());
   }, [forcedVisibleNodeIds, getPrunedGraphData]);
 
-  // const nodeRenderObject = (node) => {
-  //   const sprite = new SpriteText(node.id);
-  //   sprite.color = !node.outEdges.length ? "red" : node.collapsed ? "green" : "yellow";
-  //   sprite.textHeight = 4;
-  //   sprite.padding = 0.5;
-  //   sprite.backgroundColor = "black";
-  //   sprite.borderWidth = 0.5;
-  //   return sprite;
-  // };
-
   const nodeCanvasObject = (node, ctx, globalScale) => {
     const label = node.id;
     const fontSize = 16 / globalScale;
@@ -124,24 +114,23 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
   };
 
   return (
-    // <ForceGraph3D
-    //   graphData={prunedGraphData}
-    //   nodeThreeObject={nodeRenderObject}
-    //   linkDirectionalParticles={1}
-    //   onNodeClick={handleNodeClick}
-    //   enableNodeDrag={false}
-    // />
-    <ForceGraph2D
-      graphData={prunedGraphData}
-      nodeCanvasObject={nodeCanvasObject}
-      nodePointerAreaPaint={nodePointerAreaPaint}
-      linkDirectionalParticles={1}
-      linkDirectionalArrowLength={4}
-      linkDirectionalArrowRelPos={1}
-      nodeLabel={getNodeLabel}
-      onNodeClick={handleNodeClick}
-      enableNodeDrag={false}
-    />
+    <SizeMe monitorHeight>
+      {({ size }) => (
+        <ForceGraph2D
+          graphData={prunedGraphData}
+          nodeCanvasObject={nodeCanvasObject}
+          nodePointerAreaPaint={nodePointerAreaPaint}
+          linkDirectionalParticles={1}
+          linkDirectionalArrowLength={4}
+          linkDirectionalArrowRelPos={1}
+          nodeLabel={getNodeLabel}
+          onNodeClick={handleNodeClick}
+          enableNodeDrag={false}
+          width={size.width || undefined}
+          height={size.height || undefined}
+        />
+      )}
+    </SizeMe>
   );
 };
 

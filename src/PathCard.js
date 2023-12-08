@@ -4,8 +4,6 @@ import { getIdiomInfo } from "./idioms";
 
 const PathCard = ({ idiom }) => {
   const idiomInfo = getIdiomInfo(idiom);
-  console.log(idiom);
-  console.log(idiomInfo);
 
   return (
     <>
@@ -19,7 +17,8 @@ const PathCard = ({ idiom }) => {
           </Typography>
           <Typography variant="body2">
             解释： {idiomInfo.explanation}
-            <br />例句："{idiomInfo.example}"
+            <br />
+            例句：{idiomInfo.example === "无" ? "无" : `"${idiomInfo.example}"`}
           </Typography>
         </CardContent>
       </Card>

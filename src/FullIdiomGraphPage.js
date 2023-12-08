@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
 import FullGraph from "./FullGraph";
-import { Button, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 
-const IdiomSearchGraph = () => {
+const FullIdiomGraphPage = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const [loaded, setLoaded] = useState(false);
 
@@ -39,21 +39,23 @@ const IdiomSearchGraph = () => {
 
   return confirmed ? (
     loaded ? (
-      <FullGraph graphData={graphData} />
+      <div style={{ flex: 1 }}>
+        <FullGraph graphData={graphData} />
+      </div>
     ) : (
       <div>Loading...</div>
     )
   ) : (
-    <>
-      <Typography sx={{ textTransform: "capitalize" }}>
+    <Stack style={{ flex: 1, textAlign: "center" }}>
+      <Typography sx={{ textTransform: "uppercase" }}>
         Are you sure you want to render this? It will probably crash your browser unless you have an RTX 3000+ gen or
         equivalent gpu.
       </Typography>
       <Button variant="outlined" color="error" onClick={() => setConfirmed(true)}>
         确认
       </Button>
-    </>
+    </Stack>
   );
 };
 
-export default IdiomSearchGraph;
+export default FullIdiomGraphPage;

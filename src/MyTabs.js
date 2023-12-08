@@ -1,0 +1,32 @@
+import { Tab, Tabs } from "@mui/material";
+import React from "react";
+import { Link, matchPath, useLocation } from "react-router-dom";
+
+const MyTabs = () => {
+  const useRouteMatch = (patterns) => {
+    const { pathname } = useLocation();
+
+    for (let i = 0; i < patterns.length; i += 1) {
+      const pattern = patterns[i];
+      const possibleMatch = matchPath(pattern, pathname);
+      if (possibleMatch !== null) {
+        return possibleMatch;
+      }
+    }
+
+    return null;
+  };
+
+  const routeMatch = useRouteMatch(["/search_graph", "/full_graph", "/shortest_path"]);
+  const currentTab = routeMatch?.pattern?.path;
+
+  return (
+    <Tabs value={currentTab}>
+      <Tab label="Search Graph" value="/search_graph" component={Link} to={"/search_graph"} />
+      <Tab label="Full Graph" value="/full_graph" component={Link} to={"/full_graph"} />
+      <Tab label="Shortest Path" value="/shortest_path" component={Link} to={"/shortest_path"} />
+    </Tabs>
+  );
+};
+
+export default MyTabs;

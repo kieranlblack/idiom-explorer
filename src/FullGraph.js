@@ -1,19 +1,20 @@
 import React from "react";
 
 import { ForceGraph3D } from "react-force-graph";
+import { SizeMe } from "react-sizeme";
 // import { getIdiomInfo } from "./idioms";
-// import SpriteText from "three-spritetext";
+import SpriteText from "three-spritetext";
 
 const FullGraph = ({ graphData }) => {
-  // const nodeRenderObject = (node) => {
-  //   const sprite = new SpriteText(node.id);
-  //   sprite.color = "green";
-  //   sprite.textHeight = 4;
-  //   sprite.padding = 0.5;
-  //   sprite.backgroundColor = "black";
-  //   sprite.borderWidth = 0.5;
-  //   return sprite;
-  // };
+  const nodeRenderObject = (node) => {
+    const sprite = new SpriteText(node.id);
+    sprite.color = "green";
+    sprite.textHeight = 4;
+    sprite.padding = 0.5;
+    sprite.backgroundColor = "black";
+    sprite.borderWidth = 0.5;
+    return sprite;
+  };
 
   // const nodeCanvasObject = (node, ctx, globalScale) => {
   //   const label = node.id;
@@ -44,16 +45,24 @@ const FullGraph = ({ graphData }) => {
   // };
 
   return (
-    <ForceGraph3D
-      graphData={graphData}
-      // nodeCanvasObject={nodeCanvasObject}
-      // nodeThreeObject={nodeRenderObject}
-      // nodePointerAreaPaint={nodePointerAreaPaint}
-      warmupTicks={100}
-      cooldownTicks={0}
-      nodeResolution={2}
-      enablePointerInteraction={false}
-    />
+    <SizeMe monitorHeight>
+      {({ size }) => {
+        console.log(size);
+        return (
+          <ForceGraph3D
+            graphData={graphData}
+            // nodeCanvasObject={nodeCanvasObject}
+            nodeThreeObject={nodeRenderObject}
+            // nodePointerAreaPaint={nodePointerAreaPaint}
+            warmupTicks={100}
+            nodeResolution={2}
+            enablePointerInteraction={false}
+            width={size.width || undefined}
+            height={size.height || undefined}
+          />
+        );
+      }}
+    </SizeMe>
   );
 };
 

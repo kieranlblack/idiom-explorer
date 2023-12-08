@@ -38,17 +38,17 @@ const ShortestPathPage = () => {
   };
 
   return (
-    <Stack spacing={2} textAlign="center">
+    <Stack spacing={2} style={{ flex: 1, textAlign: "center" }}>
       <Stack direction="row" alignItems="center" justifyContent="center">
         <TextField
-          label="输入成语"
+          label="开头"
           variant="outlined"
           placeholder="输入成语"
           onChange={(event) => setStartIdiom(event.target.value)}
         />
         <IdiomChain length={3} />
         <TextField
-          label="输入成语"
+          label="结尾"
           variant="outlined"
           placeholder="输入成语"
           onChange={(event) => setEndIdiom(event.target.value)}

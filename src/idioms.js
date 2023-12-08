@@ -9,7 +9,6 @@ export const getIdiomInfo = (idiom) => {
 
 export const findShortestPath = (startIdiom, endIdiom, graphData) => {
   const graph = Object.fromEntries(graphData.nodes.map((node) => [node, {}]));
-  console.log(graphData.edges)
   for (const [src, dst] of graphData.edges) {
     graph[src][dst] = 1;
   }

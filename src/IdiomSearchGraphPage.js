@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import MultiSelectTextInput from "./MultiSelectTextInput";
-import ExpandableIdiomGraph from "./ExpandableGraph";
+import ExpandableGraph from "./ExpandableGraph";
+import { Stack } from "@mui/material";
 
 const IdiomSearchGraphPage = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
@@ -38,10 +39,12 @@ const IdiomSearchGraphPage = () => {
   const [selectedIdioms, setSelectedIdioms] = useState(defaultIdioms);
 
   return loaded ? (
-    <div>
+    <Stack spacing={1} style={{ flex: 1, display: "flex" }}>
       <MultiSelectTextInput onValueChange={setSelectedIdioms} defaultValue={defaultIdioms} placeholder="输入成语" />
-      <ExpandableIdiomGraph graphData={graphData} forcedVisibleNodeIds={selectedIdioms} />
-    </div>
+      <div style={{ flex: 1 }}>
+        <ExpandableGraph graphData={graphData} forcedVisibleNodeIds={selectedIdioms} />
+      </div>
+    </Stack>
   ) : (
     <div>Loading...</div>
   );
