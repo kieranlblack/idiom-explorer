@@ -1,0 +1,46 @@
+{
+  "name": "idiom-explorer",
+  "version": "0.1.0",
+  "homepage": "https://idioms.kieran.sh",
+  "private": true,
+  "proxy": "http://10.0.0.53:8000",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-force-graph": "^1.44.1",
+    "react-scripts": "5.0.1",
+    "react-select": "^5.8.0",
+    "three-spritetext": "^1.8.1"
+  },
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "plugin:import/recommended"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint-plugin-import": "^2.29.0",
+    "gh-pages": "^6.1.0"
+  }
+}
