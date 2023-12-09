@@ -6,6 +6,7 @@ import { Button, Stack } from "@mui/material";
 import { getRandomIdiom } from "./idioms";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
+import { useSearchParams } from "react-router-dom";
 
 const IdiomSearchGraphPage = () => {
   const [allIdioms, setAllIdioms] = useState();
@@ -40,7 +41,17 @@ const IdiomSearchGraphPage = () => {
     };
   }, []);
 
-  const [selectedIdioms, setSelectedIdioms] = useState(["记忆犹新"]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedIdioms, setSelectedIdioms] = useState([]);
+
+  useEffect(() => {
+    const idioms = searchParams.getAll("idiom");
+    if (idioms.length) {
+      setSelectedIdioms(idioms);
+    } else {
+      setSelectedIdioms(["记忆犹新"]);
+    }
+  }, [searchParams])
 
   useEffect(() => {
     if (!allIdioms) {

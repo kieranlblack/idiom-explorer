@@ -3,6 +3,7 @@ import { Button, Stack, TextField, Typography } from "@mui/material";
 import IdiomChain from "./IdiomChain";
 import { findShortestPath } from "./idioms";
 import Path from "./Path";
+import { Link, createSearchParams } from "react-router-dom";
 
 const ShortestPathPage = () => {
   const [startIdiom, setStartIdiom] = useState("");
@@ -74,13 +75,25 @@ const ShortestPathPage = () => {
           onChange={(event) => setIdiom(event, setEndIdiom)}
         />
       </Stack>
-      <Button variant="outlined" onClick={onClick} disabled={!loaded} fullWidth={false}>
+      <Button variant="outlined" onClick={onClick} disabled={!loaded}>
         启动！
       </Button>
       {error && (
         <Typography color="error">
           无法把"{startIdiom}"与"{endIdiom}"接起来
         </Typography>
+      )}
+      {shortestPath.length !== 0 && (
+        <Link
+          to={{
+            pathname: "/search_graph",
+            search: createSearchParams(shortestPath.map((idiom) => ["idiom", idiom])).toString(),
+          }}
+        >
+          <Button>
+            点击去看在图里
+          </Button>
+        </Link>
       )}
       <Path path={shortestPath} />
     </Stack>
