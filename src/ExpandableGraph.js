@@ -112,19 +112,21 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
   return (
     <SizeMe monitorHeight>
       {({ size }) => (
-        <ForceGraph2D
-          graphData={prunedGraphData}
-          nodeCanvasObject={nodeCanvasObject}
-          nodePointerAreaPaint={nodePointerAreaPaint}
-          linkDirectionalParticles={1}
-          linkDirectionalArrowLength={4}
-          linkDirectionalArrowRelPos={1}
-          nodeLabel={getNodeLabel}
-          onNodeClick={handleNodeClick}
-          enableNodeDrag={false}
-          width={size.width || undefined}
-          height={size.height || undefined}
-        />
+        <div>
+          <ForceGraph2D
+            graphData={prunedGraphData}
+            nodeCanvasObject={nodeCanvasObject}
+            nodePointerAreaPaint={nodePointerAreaPaint}
+            linkDirectionalParticles={1}
+            linkDirectionalArrowLength={4}
+            linkDirectionalArrowRelPos={1}
+            nodeLabel={getNodeLabel}
+            onNodeClick={handleNodeClick}
+            enableNodeDrag={false}
+            width={size.width || undefined}
+            height={size.height || undefined}
+          />
+        </div>
       )}
     </SizeMe>
   );

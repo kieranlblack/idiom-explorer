@@ -38,23 +38,21 @@ const FullIdiomGraphPage = () => {
 
   const [confirmed, setConfirmed] = useState(false);
 
-  return confirmed ? (
-    loaded ? (
-      <div style={{ flex: 1 }}>
+  return loaded ? (
+    confirmed ? (
+      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
         <FullGraph graphData={graphData} />
       </div>
     ) : (
-      <Loading />
+      <Stack style={{ flex: 1, textAlign: "center" }}>
+        <Typography>你确定想要渲染吗？很可能会导致你的浏览器崩溃。</Typography>
+        <Button variant="outlined" color="error" onClick={() => setConfirmed(true)}>
+          我确定
+        </Button>
+      </Stack>
     )
   ) : (
-    <Stack style={{ flex: 1, textAlign: "center" }}>
-      <Typography>
-        你确定想要渲染吗？除非你的电脑配备了RTX 30或等效的显卡系列，否则很可能会导致你的浏览器崩溃。
-      </Typography>
-      <Button variant="outlined" color="error" onClick={() => setConfirmed(true)}>
-        我确定
-      </Button>
-    </Stack>
+    <Loading />
   );
 };
 
