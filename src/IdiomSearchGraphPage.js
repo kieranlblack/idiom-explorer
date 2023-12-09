@@ -41,7 +41,7 @@ const IdiomSearchGraphPage = () => {
     };
   }, []);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [selectedIdioms, setSelectedIdioms] = useState([]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const IdiomSearchGraphPage = () => {
     } else {
       setSelectedIdioms(["记忆犹新"]);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
   useEffect(() => {
     if (!allIdioms) {
