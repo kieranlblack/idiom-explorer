@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import FullGraph from "./FullGraph";
 import { Button, Stack, Typography } from "@mui/material";
 import Loading from "./Loading";
+import { SettingsContext } from "./context/SettingsContext";
 
 const FullIdiomGraphPage = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
   const [loaded, setLoaded] = useState(false);
 
+  const { settings } = useContext(SettingsContext);
+
   useEffect(() => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      //   const response = await fetch("/idiom_data/full_graph_data.json");
-      const response = await fetch("/idiom_data/common_graph_data.json");
+      const response = await fetch(settings.otherGraphData);
       const rawData = await response.json();
 
       const data = {
@@ -34,7 +36,7 @@ const FullIdiomGraphPage = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [settings.otherGraphData]);
 
   const [confirmed, setConfirmed] = useState(false);
 

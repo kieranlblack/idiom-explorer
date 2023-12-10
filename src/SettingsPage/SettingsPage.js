@@ -1,0 +1,37 @@
+import React, { useContext } from "react";
+import { SettingsContext } from "../context/SettingsContext";
+import { FormControl, InputLabel, MenuItem, Select, Stack, Typography } from "@mui/material";
+
+const SettingsPage = () => {
+  const { settings, setSettings } = useContext(SettingsContext);
+
+  const handleSearchGraphDataChange = (event) => {
+    setSettings({ ...settings, searchGraphData: event.target.value });
+  };
+
+  const handleOtherGraphDataChange = (event) => {
+    setSettings({ ...settings, otherGraphData: event.target.value });
+  };
+
+  return (
+    <Stack>
+      <Typography>除非你是我，最好不要改变。</Typography>
+      <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel>搜索图数据集</InputLabel>
+        <Select value={settings.searchGraphData} label="搜索图数据集" onChange={handleSearchGraphDataChange}>
+          <MenuItem value={"/idiom_data/full_graph_data.json"}>所有的成语</MenuItem>
+          <MenuItem value={"/idiom_data/common_graph_data.json"}>只有使用率比较高的成语</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel>其他图数据集</InputLabel>
+        <Select value={settings.otherGraphData} label="其他图数据集" onChange={handleOtherGraphDataChange}>
+          <MenuItem value={"/idiom_data/full_graph_data.json"}>所有的成语</MenuItem>
+          <MenuItem value={"/idiom_data/common_graph_data.json"}>只有使用率比较高的成语</MenuItem>
+        </Select>
+      </FormControl>
+    </Stack>
+  );
+};
+
+export default SettingsPage;

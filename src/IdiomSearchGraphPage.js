@@ -1,23 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import MultiSelectTextInput from "./MultiSelectTextInput";
 import ExpandableGraph from "./ExpandableGraph";
 import { Button, Stack } from "@mui/material";
-import { getRandomIdiom } from "./idioms";
 import Loading from "./Loading";
 import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
+import { SettingsContext } from "./context/SettingsContext";
 
 const IdiomSearchGraphPage = () => {
-  const [allIdioms, setAllIdioms] = useState();
+  const [allIdioms, setAllIdioms] = useState([]);
   const [graphData, setGraphData] = useState();
   const [loaded, setLoaded] = useState(false);
+
+  const { settings } = useContext(SettingsContext);
 
   useEffect(() => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      const response = await fetch("/idiom_data/full_graph_data.json");
+      const response = await fetch(settings.searchGraphData);
       const rawData = await response.json();
 
       const data = {
@@ -29,7 +31,7 @@ const IdiomSearchGraphPage = () => {
       };
 
       if (isSubscribed) {
-        setAllIdioms(new Set(rawData.nodes));
+        setAllIdioms(rawData.nodes);
         setGraphData(data);
         setLoaded(true);
       }
@@ -39,7 +41,7 @@ const IdiomSearchGraphPage = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [settings.searchGraphData]);
 
   const [searchParams] = useSearchParams();
   const [selectedIdioms, setSelectedIdioms] = useState([]);
@@ -54,19 +56,19 @@ const IdiomSearchGraphPage = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    if (!allIdioms) {
+    if (allIdioms.length === 0) {
       return;
     }
 
     for (const idiom of selectedIdioms) {
-      if (!allIdioms.has(idiom)) {
+      if (!allIdioms.includes(idiom)) {
         toast.error(`"${idiom}" 不在图中`, { pauseOnHover: false, autoClose: 2500 });
       }
     }
   }, [allIdioms, selectedIdioms]);
 
   const setRandomIdiom = () => {
-    const randomIdiom = getRandomIdiom();
+    const randomIdiom = allIdioms[Math.floor(Math.random() * allIdioms.length)];
     setSelectedIdioms([randomIdiom]);
   };
 

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Stack, TextField, Typography } from "@mui/material";
 import IdiomChain from "./IdiomChain";
 import { findShortestPath } from "./idioms";
 import Path from "./Path";
 import { Link, createSearchParams } from "react-router-dom";
+import { SettingsContext } from "./context/SettingsContext";
 
 const ShortestPathPage = () => {
   const [startIdiom, setStartIdiom] = useState("");
@@ -12,12 +13,13 @@ const ShortestPathPage = () => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
+  const { settings } = useContext(SettingsContext);
+
   useEffect(() => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      //   const response = await fetch("/idiom_data/full_graph_data.json");
-      const response = await fetch("/idiom_data/common_graph_data.json");
+      const response = await fetch(settings.otherGraphData);
       const rawData = await response.json();
 
       if (isSubscribed) {
@@ -30,7 +32,7 @@ const ShortestPathPage = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [settings.otherGraphData]);
 
   const [shortestPath, setShortestPath] = useState([]);
 

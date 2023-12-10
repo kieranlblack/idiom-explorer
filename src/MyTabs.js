@@ -26,6 +26,7 @@ const MyTabs = () => {
       <Tab label="整个图" value="/full_graph" component={Link} to={"/full_graph"} />
       <Tab label="最短路径" value="/shortest_path" component={Link} to={"/shortest_path"} />
       <Tab label="接龙助手" value="/helper" component={Link} to={"/helper"} />
+      <Tab label="设置" value="/settings" component={Link} to={"/settings"} />
     </Tabs>
   );
 };

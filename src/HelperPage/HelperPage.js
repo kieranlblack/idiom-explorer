@@ -1,7 +1,8 @@
 import { Button, Stack, TextField, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { getIdiomInfo } from "../idioms";
 import OptionsDisplay from "./OptionsDisplay";
+import { SettingsContext } from "../context/SettingsContext";
 
 const HelperPage = () => {
   const [input, setInput] = useState("");
@@ -10,12 +11,13 @@ const HelperPage = () => {
   const [foundIdioms, setFoundIdioms] = useState([]);
   const [loaded, setLoaded] = useState(false);
 
+  const { settings } = useContext(SettingsContext);
+
   useEffect(() => {
     let isSubscribed = true;
 
     const fetchData = async () => {
-      //   const response = await fetch("/idiom_data/full_graph_data.json");
-      const response = await fetch("/idiom_data/common_graph_data.json");
+      const response = await fetch(settings.otherGraphData);
       const rawData = await response.json();
 
       const endCharToConnected = Object.fromEntries(rawData.nodes.map((node) => [[...node].slice(-1), []]));
@@ -36,7 +38,7 @@ const HelperPage = () => {
     return () => {
       isSubscribed = false;
     };
-  }, []);
+  }, [settings.otherGraphData]);
 
   const handleInputChange = (event) => {
     setError(false);
@@ -67,9 +69,7 @@ const HelperPage = () => {
 
   return (
     <Stack spacing={2} style={{ flex: 1, textAlign: "center" }}>
-      <Typography>
-        输入成语或者字看可以用什么把它接起来。
-      </Typography>
+      <Typography>输入成语或者字看可以用什么把它接起来。</Typography>
       <Stack spacing={1} direction="row" alignItems="center" justifyContent="center">
         <TextField
           variant="outlined"

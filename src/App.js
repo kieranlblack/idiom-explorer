@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import CustomTabPanel from "./CustomTabPanel";
 import IdiomSearchGraphPage from "./IdiomSearchGraphPage";
@@ -11,10 +11,18 @@ import MyTabs from "./MyTabs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HelperPage from "./HelperPage/HelperPage";
+import SettingsPage from "./SettingsPage/SettingsPage";
+import { SettingsContext } from "./context/SettingsContext";
 
 const App = () => {
+  const [settings, setSettings] = useState({
+    searchGraphData: "/idiom_data/full_graph_data.json",
+    otherGraphData: "/idiom_data/common_graph_data.json",
+  });
+  const value = { settings, setSettings };
+
   return (
-    <>
+    <SettingsContext.Provider value={value}>
       <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
         <BrowserRouter>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -53,12 +61,20 @@ const App = () => {
                 </CustomTabPanel>
               }
             />
+            <Route
+              path="/settings"
+              element={
+                <CustomTabPanel>
+                  <SettingsPage />
+                </CustomTabPanel>
+              }
+            />
             <Route path="*" element={<Navigate to="/search_graph" replace />} />
           </Routes>
         </BrowserRouter>
       </div>
       <ToastContainer />
-    </>
+    </SettingsContext.Provider>
   );
 };
 
