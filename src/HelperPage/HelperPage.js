@@ -1,0 +1,90 @@
+import { Button, Stack, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { getIdiomInfo } from "../idioms";
+import OptionsDisplay from "./OptionsDisplay";
+
+const HelperPage = () => {
+  const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
+  const [endCharToConnected, setEndCharToConnected] = useState({});
+  const [foundIdioms, setFoundIdioms] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const fetchData = async () => {
+      //   const response = await fetch("/idiom_data/full_graph_data.json");
+      const response = await fetch("/idiom_data/common_graph_data.json");
+      const rawData = await response.json();
+
+      const endCharToConnected = Object.fromEntries(rawData.nodes.map((node) => [[...node].slice(-1), []]));
+      for (const [srcIdiom, dstIdiom] of rawData.edges) {
+        const mappedArray = endCharToConnected[[...srcIdiom].slice(-1)];
+        if (!mappedArray.includes(dstIdiom)) {
+          mappedArray.push(dstIdiom);
+        }
+      }
+
+      if (isSubscribed) {
+        setEndCharToConnected(endCharToConnected);
+        setLoaded(true);
+      }
+    };
+
+    fetchData().catch(console.error);
+    return () => {
+      isSubscribed = false;
+    };
+  }, []);
+
+  const handleInputChange = (event) => {
+    setError(false);
+    setInput(event.target.value);
+  };
+
+  const onClick = () => {
+    if (!input) {
+      return;
+    }
+    const targetChar = [...input].slice(-1);
+    const matchingIdioms = endCharToConnected[targetChar] || [];
+    const sortedIdioms = Array.from(matchingIdioms).sort((idiom) => -1 * getIdiomInfo(idiom).frequency);
+    if (sortedIdioms.length === 0) {
+      setError(true);
+    }
+    setFoundIdioms(sortedIdioms);
+  };
+
+  const handleKeyDown = (event) => {
+    switch (event.key) {
+      case "Enter":
+        onClick();
+        break;
+      default:
+    }
+  };
+
+  return (
+    <Stack spacing={2} style={{ flex: 1, textAlign: "center" }}>
+      <Typography>
+        输入成语或者字看可以用什么把它接起来。
+      </Typography>
+      <Stack spacing={1} direction="row" alignItems="center" justifyContent="center">
+        <TextField
+          variant="outlined"
+          placeholder="输入成语或者字"
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+        />
+        <Button variant="outlined" onClick={onClick} disabled={!loaded}>
+          启动！
+        </Button>
+      </Stack>
+      {error && <Typography color="error">无法连接"{input}"</Typography>}
+      <OptionsDisplay idioms={foundIdioms} />
+    </Stack>
+  );
+};
+
+export default HelperPage;

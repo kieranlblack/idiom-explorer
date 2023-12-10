@@ -22,9 +22,9 @@ const IdiomSearchGraphPage = () => {
 
       const data = {
         nodes: rawData.nodes.map((node) => ({ id: node })),
-        links: rawData.edges.map(([src_idiom, dst_idiom]) => ({
-          source: src_idiom,
-          target: dst_idiom,
+        links: rawData.edges.map(([srcIdiom, dstIdiom]) => ({
+          source: srcIdiom,
+          target: dstIdiom,
         })),
       };
 

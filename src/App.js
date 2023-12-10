@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import MyTabs from "./MyTabs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HelperPage from "./HelperPage/HelperPage";
 
 const App = () => {
   return (
@@ -41,6 +42,14 @@ const App = () => {
               element={
                 <CustomTabPanel>
                   <ShortestPathPage />
+                </CustomTabPanel>
+              }
+            />
+            <Route
+              path="/helper"
+              element={
+                <CustomTabPanel>
+                  <HelperPage />
                 </CustomTabPanel>
               }
             />

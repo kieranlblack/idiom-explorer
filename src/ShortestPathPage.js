@@ -58,13 +58,24 @@ const ShortestPathPage = () => {
     setter(event.target.value);
   };
 
+  const handleKeyDown = (event) => {
+    switch (event.key) {
+      case "Enter":
+        onClick();
+        break;
+      default:
+    }
+  };
+
   return (
     <Stack spacing={2} style={{ flex: 1, textAlign: "center" }}>
+      <Typography>找出连接两个成语的最短路径。</Typography>
       <Stack direction="row" alignItems="center" justifyContent="center">
         <TextField
           label="开头"
           variant="outlined"
           placeholder="输入成语"
+          onKeyDown={handleKeyDown}
           onChange={(event) => setIdiom(event, setStartIdiom)}
         />
         <IdiomChain length={3} />
@@ -72,6 +83,7 @@ const ShortestPathPage = () => {
           label="结尾"
           variant="outlined"
           placeholder="输入成语"
+          onKeyDown={handleKeyDown}
           onChange={(event) => setIdiom(event, setEndIdiom)}
         />
       </Stack>
@@ -90,9 +102,7 @@ const ShortestPathPage = () => {
             search: createSearchParams(shortestPath.map((idiom) => ["idiom", idiom])).toString(),
           }}
         >
-          <Button>
-            点击去看在图里
-          </Button>
+          <Button>点击去看在图里</Button>
         </Link>
       )}
       <Path path={shortestPath} />

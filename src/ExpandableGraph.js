@@ -176,7 +176,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
             graphData={prunedGraphData}
             nodeCanvasObject={nodeCanvasObject}
             nodePointerAreaPaint={nodePointerAreaPaint}
-            linkDirectionalParticles={1}
+            // linkDirectionalParticles={1}
             linkDirectionalArrowLength={4}
             linkDirectionalArrowRelPos={1}
             linkWidth={1.5}
