@@ -33,7 +33,6 @@ const IdiomSearchGraphPage = () => {
       if (isSubscribed) {
         setAllIdioms(rawData.nodes);
         setGraphData(data);
-        await new Promise(resolve => setTimeout(resolve, 100));
         setLoaded(true);
       }
     };
