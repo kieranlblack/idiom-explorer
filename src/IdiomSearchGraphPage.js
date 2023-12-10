@@ -84,10 +84,10 @@ const IdiomSearchGraphPage = () => {
       {!settings.searchGraphInfoHidden && (
         <div style={{ border: "1px dashed" }} onClick={hideInfo}>
           <Typography style={{ padding: 3 }}>
-            点击顶点以探索图。<span style={{ color: "fuchsia" }}>粉色</span>
+            点击顶点以探索图。如果起始顶点的最后一个字和结束顶点的第一个字相同，那么两个成语就通过一条有向边相连。<span style={{ color: "fuchsia" }}>粉色</span>
             的顶点属于接龙，<span style={{ color: "green" }}>绿色</span>表示还隐藏了边，
             <span style={{ color: "red" }}>红色</span>表示没有边，<span style={{ color: "orange" }}>橙色</span>
-            表示被展开的。顶点的大小取决于成语的出现频率。点击关闭。
+            表示被展开的。顶点的大小取决于成语的出现频率。点击关闭信息。
           </Typography>
         </div>
       )}
