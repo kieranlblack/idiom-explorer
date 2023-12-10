@@ -72,8 +72,6 @@ const IdiomSearchGraphPage = () => {
     setSelectedIdioms([randomIdiom]);
   };
 
-  const [infoHidden, setInfoHidden] = useState(false);
-
   const hideInfo = () => {
     setSettings((oldSettings) => ({ ...oldSettings, searchGraphInfoHidden: true }));
   };
