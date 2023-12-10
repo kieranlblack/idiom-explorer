@@ -6,11 +6,11 @@ const SettingsPage = () => {
   const { settings, setSettings } = useContext(SettingsContext);
 
   const handleSearchGraphDataChange = (event) => {
-    setSettings({ ...settings, searchGraphData: event.target.value });
+    setSettings((oldSettings) => ({ ...oldSettings, searchGraphData: event.target.value }));
   };
 
   const handleOtherGraphDataChange = (event) => {
-    setSettings({ ...settings, otherGraphData: event.target.value });
+    setSettings((oldSettings) => ({ ...oldSettings, otherGraphData: event.target.value }));
   };
 
   return (

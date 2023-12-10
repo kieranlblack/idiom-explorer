@@ -13,7 +13,7 @@ const IdiomSearchGraphPage = () => {
   const [graphData, setGraphData] = useState();
   const [loaded, setLoaded] = useState(false);
 
-  const { settings } = useContext(SettingsContext);
+  const { settings, setSettings } = useContext(SettingsContext);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -75,12 +75,12 @@ const IdiomSearchGraphPage = () => {
   const [infoHidden, setInfoHidden] = useState(false);
 
   const hideInfo = () => {
-    setInfoHidden(true);
+    setSettings((oldSettings) => ({ ...oldSettings, searchGraphInfoHidden: true }));
   };
 
   return loaded ? (
     <Stack spacing={1} style={{ flex: 1, display: "flex" }}>
-      {!infoHidden && (
+      {!settings.searchGraphInfoHidden && (
         <div style={{ border: "1px dashed" }} onClick={hideInfo}>
           <Typography style={{ padding: 3 }}>
             点击顶点以探索图。<span style={{ color: "fuchsia" }}>粉色</span>
