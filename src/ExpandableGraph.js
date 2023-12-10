@@ -82,8 +82,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
 
   const nodeCanvasObject = (node, ctx, globalScale) => {
     const label = node.id;
-    console.log(globalScale);
-    const fontSize = 4;
+    const fontSize = 16 / globalScale;
     ctx.font = `${fontSize}px Sans-Serif`;
     const textWidth = ctx.measureText(label).width;
     const bckgDimensions = [textWidth, fontSize].map((n) => n + fontSize * 0.2); // some padding
@@ -93,7 +92,15 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
 
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = !node.outEdges.length ? "red" : node.collapsed ? "green" : "orange";
+    if (forcedVisibleNodeIds.includes(node.id)) {
+      ctx.fillStyle = "fuchsia";
+    } else {
+      if (!node.collapsed) {
+        ctx.fillStyle = "orange";
+      } else {
+        ctx.fillStyle = node.outEdges.length ? "green" : "red";
+      }
+    }
     ctx.fillText(label, node.x, node.y);
 
     node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
@@ -103,6 +110,13 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
     ctx.fillStyle = color;
     const bckgDimensions = node.__bckgDimensions;
     bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
+  };
+
+  const linkColor = (edge) => {
+    if (forcedVisibleNodeIds.includes(edge.source.id) && forcedVisibleNodeIds.includes(edge.target.id)) {
+      return "fuchsia";
+    }
+    return "darkgrey";
   };
 
   const getNodeLabel = (node) => {
@@ -151,6 +165,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
             linkDirectionalArrowLength={4}
             linkDirectionalArrowRelPos={1}
             linkWidth={1.5}
+            linkColor={linkColor}
             nodeLabel={getNodeLabel}
             onNodeClick={handleNodeClick}
             enableNodeDrag={false}
