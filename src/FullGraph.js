@@ -27,8 +27,8 @@ const FullGraph = ({ graphData }) => {
           d3VelocityDecay={0.8}
           nodeResolution={2}
           enablePointerInteraction={false}
-          width={size.width || 800}
-          height={size.height || 800}
+          width={size.width || 1024}
+          height={size.height || 1024}
         />
       )}
     </SizeMe>
