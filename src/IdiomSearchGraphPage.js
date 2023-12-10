@@ -73,13 +73,13 @@ const IdiomSearchGraphPage = () => {
   return loaded ? (
     <Stack spacing={1} style={{ flex: 1, display: "flex" }}>
       <Stack spacing={2} direction={"row"} style={{ display: "flex", alignItems: "center" }}>
-        <div style={{ flex: 1 }}>
-          <MultiSelectTextInput value={selectedIdioms} setValue={setSelectedIdioms} placeholder="输入成语" />
-        </div>
         <div style={{ flex: 0 }}>
           <Button variant="outlined" onClick={setRandomIdiom}>
             随机
           </Button>
+        </div>
+        <div style={{ flex: 1 }}>
+          <MultiSelectTextInput value={selectedIdioms} setValue={setSelectedIdioms} placeholder="输入成语" />
         </div>
       </Stack>
       <div style={{ flex: 1 }}>
