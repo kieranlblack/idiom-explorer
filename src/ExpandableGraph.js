@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo, useEffect } from "react";
+import React, { useCallback, useState, useMemo, useEffect, useRef, createRef } from "react";
 
 import { ForceGraph2D } from "react-force-graph";
 import { getIdiomInfo } from "./idioms";
@@ -82,7 +82,8 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
 
   const nodeCanvasObject = (node, ctx, globalScale) => {
     const label = node.id;
-    const fontSize = 16 / globalScale;
+    console.log(globalScale);
+    const fontSize = 4;
     ctx.font = `${fontSize}px Sans-Serif`;
     const textWidth = ctx.measureText(label).width;
     const bckgDimensions = [textWidth, fontSize].map((n) => n + fontSize * 0.2); // some padding
@@ -109,17 +110,47 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
     return `拼音：${idiomInfo["pinyin"]}<br />解释：${idiomInfo["explanation"]}`;
   };
 
+  const forceGraphRef = useRef();
+  const forceGraphDivRef = createRef();
+  const [completedInitialZoom, setCompletedInitialZoom] = useState(false);
+
+  useEffect(() => {
+    const doInitialZoom = () => {
+      if (!forceGraphRef.current) {
+        return;
+      }
+      const forceGraphDiv = forceGraphDivRef.current;
+      let size = 1000;
+      if (forceGraphDiv) {
+        size = Math.min(forceGraphDiv.offsetWidth, forceGraphDiv.offsetHeight);
+      }
+
+      forceGraphRef.current.zoomToFit(250, size / 10);
+    };
+
+    if (completedInitialZoom) {
+      return;
+    }
+    const timeout = setTimeout(() => {
+      doInitialZoom();
+      setCompletedInitialZoom(true);
+    }, 150);
+    return () => clearTimeout(timeout);
+  }, [completedInitialZoom, forceGraphDivRef]);
+
   return (
     <SizeMe monitorHeight>
       {({ size }) => (
-        <div>
+        <div ref={forceGraphDivRef}>
           <ForceGraph2D
+            ref={forceGraphRef}
             graphData={prunedGraphData}
             nodeCanvasObject={nodeCanvasObject}
             nodePointerAreaPaint={nodePointerAreaPaint}
             linkDirectionalParticles={1}
             linkDirectionalArrowLength={4}
             linkDirectionalArrowRelPos={1}
+            linkWidth={1.5}
             nodeLabel={getNodeLabel}
             onNodeClick={handleNodeClick}
             enableNodeDrag={false}

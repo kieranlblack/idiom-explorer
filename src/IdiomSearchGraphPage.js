@@ -67,7 +67,7 @@ const IdiomSearchGraphPage = () => {
 
   const setRandomIdiom = () => {
     const randomIdiom = getRandomIdiom();
-    setSelectedIdioms((prev) => [...prev, randomIdiom]);
+    setSelectedIdioms([randomIdiom]);
   };
 
   return loaded ? (
