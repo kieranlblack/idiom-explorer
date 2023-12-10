@@ -23,7 +23,7 @@ const MyTabs = () => {
   return (
     <Tabs value={currentTab || false}>
       <Tab label="搜索图" value="/search_graph" component={Link} to={"/search_graph"} />
-      <Tab label="完全图" value="/full_graph" component={Link} to={"/full_graph"} />
+      <Tab label="整个图" value="/full_graph" component={Link} to={"/full_graph"} />
       <Tab label="最短路径" value="/shortest_path" component={Link} to={"/shortest_path"} />
     </Tabs>
   );
