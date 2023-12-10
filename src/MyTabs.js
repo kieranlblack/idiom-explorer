@@ -17,7 +17,7 @@ const MyTabs = () => {
     return null;
   };
 
-  const routeMatch = useRouteMatch(["/search_graph", "/full_graph", "/shortest_path"]);
+  const routeMatch = useRouteMatch(["/search_graph", "/full_graph", "/shortest_path", "/helper", "/settings"]);
   const currentTab = routeMatch?.pattern?.path;
 
   return (
