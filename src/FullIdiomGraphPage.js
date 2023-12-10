@@ -4,6 +4,7 @@ import FullGraph from "./FullGraph";
 import { Button, Stack, Typography } from "@mui/material";
 import Loading from "./Loading";
 import { SettingsContext } from "./context/SettingsContext";
+import Measure from "react-measure";
 
 const FullIdiomGraphPage = () => {
   const [graphData, setGraphData] = useState({ nodes: [], links: [] });
@@ -40,11 +41,22 @@ const FullIdiomGraphPage = () => {
 
   const [confirmed, setConfirmed] = useState(false);
 
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
   return loaded ? (
     confirmed ? (
-      <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <FullGraph graphData={graphData} />
-      </div>
+      <Measure
+        bounds
+        onResize={(contentRect) => {
+          setDimensions(contentRect.bounds);
+        }}
+      >
+        {({ measureRef }) => (
+          <div style={{ flex: 1 }} ref={measureRef}>
+            {dimensions.width !== 0 && <FullGraph graphData={graphData} size={dimensions} />}
+          </div>
+        )}
+      </Measure>
     ) : (
       <Stack style={{ flex: 1, textAlign: "center" }}>
         <Typography>你确定想要渲染吗？很可能会导致你的浏览器崩溃。</Typography>

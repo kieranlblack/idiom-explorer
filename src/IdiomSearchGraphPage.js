@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
 import { SettingsContext } from "./context/SettingsContext";
+import Measure from "react-measure";
 
 const IdiomSearchGraphPage = () => {
   const [allIdioms, setAllIdioms] = useState([]);
@@ -76,6 +77,8 @@ const IdiomSearchGraphPage = () => {
     setSettings((oldSettings) => ({ ...oldSettings, searchGraphInfoHidden: true }));
   };
 
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
   return loaded ? (
     <Stack spacing={1} style={{ flex: 1, display: "flex" }}>
       {!settings.searchGraphInfoHidden && (
@@ -98,9 +101,20 @@ const IdiomSearchGraphPage = () => {
           <MultiSelectTextInput value={selectedIdioms} setValue={setSelectedIdioms} placeholder="输入成语" />
         </div>
       </Stack>
-      <div style={{ flex: 1 }}>
-        <ExpandableGraph graphData={graphData} forcedVisibleNodeIds={selectedIdioms} />
-      </div>
+      <Measure
+        bounds
+        onResize={(contentRect) => {
+          setDimensions(contentRect.bounds);
+        }}
+      >
+        {({ measureRef }) => (
+          <div style={{ flex: 1 }} ref={measureRef}>
+            {dimensions.width !== 0 && (
+              <ExpandableGraph graphData={graphData} forcedVisibleNodeIds={selectedIdioms} size={dimensions} />
+            )}
+          </div>
+        )}
+      </Measure>
     </Stack>
   ) : (
     <Loading />

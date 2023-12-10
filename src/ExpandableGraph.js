@@ -2,9 +2,8 @@ import React, { useCallback, useState, useMemo, useEffect, useRef, createRef } f
 
 import { ForceGraph2D } from "react-force-graph";
 import { getIdiomInfo } from "./idioms";
-import { SizeMe } from "react-sizeme";
 
-const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
+const ExpandableGraph = ({ graphData, forcedVisibleNodeIds, size }) => {
   const nodeIdToNode = useMemo(() => {
     const nodeIdToNode = Object.fromEntries(graphData.nodes.map((node) => [node.id, node]));
 
@@ -168,28 +167,24 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
   }, [completedInitialZoom, forceGraphDivRef]);
 
   return (
-    <SizeMe monitorHeight>
-      {({ size }) => (
-        <div ref={forceGraphDivRef}>
-          <ForceGraph2D
-            ref={forceGraphRef}
-            graphData={prunedGraphData}
-            nodeCanvasObject={nodeCanvasObject}
-            nodePointerAreaPaint={nodePointerAreaPaint}
-            // linkDirectionalParticles={1}
-            linkDirectionalArrowLength={4}
-            linkDirectionalArrowRelPos={1}
-            linkWidth={1.5}
-            linkColor={linkColor}
-            nodeLabel={getNodeLabel}
-            onNodeClick={handleNodeClick}
-            enableNodeDrag={false}
-            width={size.width || undefined}
-            height={size.height || undefined}
-          />
-        </div>
-      )}
-    </SizeMe>
+    <div ref={forceGraphDivRef}>
+      <ForceGraph2D
+        ref={forceGraphRef}
+        graphData={prunedGraphData}
+        nodeCanvasObject={nodeCanvasObject}
+        nodePointerAreaPaint={nodePointerAreaPaint}
+        // linkDirectionalParticles={1}
+        linkDirectionalArrowLength={4}
+        linkDirectionalArrowRelPos={1}
+        linkWidth={1.5}
+        linkColor={linkColor}
+        nodeLabel={getNodeLabel}
+        onNodeClick={handleNodeClick}
+        enableNodeDrag={false}
+        width={size.width || undefined}
+        height={size.height || undefined}
+      />
+    </div>
   );
 };
 

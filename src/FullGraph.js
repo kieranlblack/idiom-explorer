@@ -1,11 +1,9 @@
 import React from "react";
 
 import { ForceGraph3D } from "react-force-graph";
-import { SizeMe } from "react-sizeme";
-// import { getIdiomInfo } from "./idioms";
 import SpriteText from "three-spritetext";
 
-const FullGraph = ({ graphData }) => {
+const FullGraph = ({ graphData, size }) => {
   const nodeRenderObject = (node) => {
     const sprite = new SpriteText(node.id);
     sprite.color = "green";
@@ -17,21 +15,17 @@ const FullGraph = ({ graphData }) => {
   };
 
   return (
-    <SizeMe monitorHeight noPlaceholder>
-      {({ size }) => (
-        <ForceGraph3D
-          graphData={graphData}
-          nodeThreeObject={nodeRenderObject}
-          warmupTicks={100}
-          cooldownTicks={0}
-          d3VelocityDecay={0.8}
-          nodeResolution={2}
-          enablePointerInteraction={false}
-          width={size.width || 1024}
-          height={size.height || 1024}
-        />
-      )}
-    </SizeMe>
+    <ForceGraph3D
+      graphData={graphData}
+      nodeThreeObject={nodeRenderObject}
+      warmupTicks={100}
+      cooldownTicks={0}
+      d3VelocityDecay={0.8}
+      nodeResolution={2}
+      enablePointerInteraction={false}
+      width={size.width}
+      height={size.height}
+    />
   );
 };
 
