@@ -83,10 +83,10 @@ const IdiomSearchGraphPage = () => {
       {!infoHidden && (
         <div style={{ border: "1px dashed" }} onClick={hideInfo}>
           <Typography style={{ padding: 3 }}>
-            点击顶以探索图。<span style={{ color: "fuchsia" }}>粉色</span>
+            点击顶点以探索图。<span style={{ color: "fuchsia" }}>粉色</span>
             的顶点属于接龙，<span style={{ color: "green" }}>绿色</span>表示还隐藏了边，
             <span style={{ color: "red" }}>红色</span>表示没有边，<span style={{ color: "orange" }}>橙色</span>
-            表示被展开的。顶点的大小取决于成语的出现频率。点击隐藏我。
+            表示被展开的。顶点的大小取决于成语的出现频率。点击关闭。
           </Typography>
         </div>
       )}
