@@ -11,6 +11,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
     for (const node of graphData.nodes) {
       node.collapsed = !forcedVisibleNodeIds.includes(node.id);
       node.outEdges = [];
+      node.idiomInfo = getIdiomInfo(node.id);
     }
 
     for (const edge of graphData.links) {
@@ -80,9 +81,23 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
     setPrunedGraphData(getPrunedGraphData());
   }, [forcedVisibleNodeIds, getPrunedGraphData]);
 
+  const computeFontMultiplier = (frequency) => {
+    if (frequency === 0) {
+      return 1;
+    }
+    const freqLog = Math.log(frequency);
+    if (-14 <= freqLog && freqLog <= -5) {
+      return 1 + ((freqLog + 14) / 9) * 0.2;
+    } else if (-5 < freqLog && freqLog <= -3) {
+      return 1.2 + ((freqLog + 5) / 2) * 0.4;
+    } else {
+      return 1.6 + ((freqLog + 3) / 3) * 0.05;
+    }
+  };
+
   const nodeCanvasObject = (node, ctx, globalScale) => {
     const label = node.id;
-    const fontSize = 16 / globalScale;
+    let fontSize = (16 / globalScale) * computeFontMultiplier(node.idiomInfo.frequency);
     ctx.font = `${fontSize}px Sans-Serif`;
     const textWidth = ctx.measureText(label).width;
     const bckgDimensions = [textWidth, fontSize].map((n) => n + fontSize * 0.2); // some padding
@@ -120,7 +135,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds }) => {
   };
 
   const getNodeLabel = (node) => {
-    const idiomInfo = getIdiomInfo(node.id);
+    const idiomInfo = node.idiomInfo;
     return `拼音：${idiomInfo["pinyin"]}<br />解释：${idiomInfo["explanation"]}`;
   };
 
