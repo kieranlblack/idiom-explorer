@@ -17,7 +17,7 @@ import { SettingsContext } from "./context/SettingsContext";
 const App = () => {
   const [settings, setSettings] = useState({
     searchGraphData: "/idiom_data/full_graph_data.json",
-    otherGraphData: "/idiom_data/common_graph_data.json",
+    otherGraphData: "/idiom_data/full_graph_data.json",
     searchGraphInfoHidden: false,
   });
   const value = { settings, setSettings };
