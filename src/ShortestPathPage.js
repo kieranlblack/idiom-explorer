@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField, Typography } from "@mui/material";
 import IdiomChain from "./IdiomChain";
-import { findShortestPath } from "./idioms";
 import Path from "./Path";
 import { Link, createSearchParams } from "react-router-dom";
 import { SettingsContext } from "./context/SettingsContext";
+
+// eslint-disable-next-line
+import ShortestPathWorker from "workerize-loader!./shortestPath.worker";
+import Loading from "./Loading";
 
 const ShortestPathPage = () => {
   const [startIdiom, setStartIdiom] = useState("");
@@ -41,22 +44,37 @@ const ShortestPathPage = () => {
   };
   const [shortestPath, setShortestPath] = useState([]);
 
-  const onClick = () => {
+  const [computingPath, setComputingPath] = useState(false);
+
+  const onClick = async () => {
     if (!startIdiom || !endIdiom) {
       return;
     }
+
+    setError(false);
+    setShortestPath([]);
 
     if (!rawGraphData.nodes.includes(startIdiom) || !rawGraphData.nodes.includes(endIdiom)) {
       setError(true);
       return;
     }
 
-    const newShortestPath = findShortestPath(startIdiom, endIdiom, rawGraphData, avoidRareIdioms);
+    const shortestPathWorker = new ShortestPathWorker();
+    setComputingPath(true);
+    const newShortestPath = await shortestPathWorker.worker_findShortestPath(
+      startIdiom,
+      endIdiom,
+      rawGraphData,
+      avoidRareIdioms
+    );
+    setComputingPath(false);
+
     if (!newShortestPath.length) {
       setError(true);
       return;
     }
     setShortestPath(newShortestPath);
+    shortestPathWorker.terminate();
   };
 
   const setIdiom = (event, setter) => {
@@ -65,10 +83,10 @@ const ShortestPathPage = () => {
     setter(event.target.value);
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = async (event) => {
     switch (event.key) {
       case "Enter":
-        onClick();
+        await onClick();
         break;
       default:
     }
@@ -96,7 +114,7 @@ const ShortestPathPage = () => {
           />
         </Stack>
         <Stack spacing={2} direction="row">
-          <Button variant="outlined" onClick={onClick} disabled={!loaded} style={{ flex: 1 }}>
+          <Button variant="outlined" onClick={onClick} disabled={!loaded || computingPath} style={{ flex: 1 }}>
             启动！
           </Button>
           <FormGroup>
@@ -107,6 +125,7 @@ const ShortestPathPage = () => {
           </FormGroup>
         </Stack>
       </Stack>
+      {computingPath && <Loading />}
       {error && (
         <Typography color="error">
           无法把"{startIdiom}"与"{endIdiom}"接起来
@@ -114,7 +133,7 @@ const ShortestPathPage = () => {
       )}
       {shortestPath.length !== 0 && (
         <>
-          <Stack spacing={3} direction="row" style={{alignItems: "center"}}>
+          <Stack spacing={3} direction="row" style={{ alignItems: "center" }}>
             <Link
               to={{
                 pathname: "/search_graph",
