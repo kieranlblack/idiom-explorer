@@ -32,7 +32,7 @@ const IdiomCard = ({ idiom }) => {
             <br />
             例句：{idiomInfo.example === "无" ? "无" : `"${idiomInfo.example}"`}
             <br />
-            对数频率: {idiomInfo.frequency !== 0 ? Math.log(idiomInfo.frequency).toFixed(2) : "负无穷"}
+            对数出现频率: {idiomInfo.frequency !== 0 ? Math.log(idiomInfo.frequency).toFixed(2) : "负无穷"}
           </Typography>
         </CardContent>
       </Card>
