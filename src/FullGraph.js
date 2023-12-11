@@ -7,7 +7,7 @@ const FullGraph = ({ graphData, size }) => {
   const nodeRenderObject = (node) => {
     const sprite = new SpriteText(node.id);
     sprite.color = "green";
-    sprite.textHeight = 4;
+    sprite.textHeight = 6;
     sprite.padding = 0.5;
     sprite.fontSize = 30;
     // sprite.backgroundColor = "black";
