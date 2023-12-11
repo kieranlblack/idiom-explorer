@@ -58,11 +58,13 @@ const FullIdiomGraphPage = () => {
         )}
       </Measure>
     ) : (
-      <Stack style={{ flex: 1, textAlign: "center" }}>
-        <Typography>你确定想要渲染吗？很可能会导致你的浏览器崩溃。</Typography>
-        <Button variant="outlined" color="error" onClick={() => setConfirmed(true)}>
-          我确定
-        </Button>
+      <Stack style={{ flex: 1, textAlign: "center", alignItems: "center", display: "flex" }}>
+        <Stack style={{ textAlign: "center", alignItems: "stretch" }}>
+          <Typography>你确定想要渲染吗？很可能会导致你的浏览器崩溃。</Typography>
+          <Button variant="outlined" color="error" onClick={() => setConfirmed(true)}>
+            我确定
+          </Button>
+        </Stack>
       </Stack>
     )
   ) : (

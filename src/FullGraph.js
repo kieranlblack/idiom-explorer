@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { ForceGraph3D } from "react-force-graph";
 import SpriteText from "three-spritetext";
@@ -9,13 +9,24 @@ const FullGraph = ({ graphData, size }) => {
     sprite.color = "green";
     sprite.textHeight = 4;
     sprite.padding = 0.5;
+    sprite.fontSize = 30;
     // sprite.backgroundColor = "black";
     // sprite.borderWidth = 0.5;
     return sprite;
   };
 
+  const forceGraphRef = useRef();
+
+  useEffect(() => {
+    if (!forceGraphRef.current) {
+      return;
+    }
+    forceGraphRef.current.d3Force("charge").strength(-400);
+  }, [forceGraphRef]);
+
   return (
     <ForceGraph3D
+      ref={forceGraphRef}
       graphData={graphData}
       nodeThreeObject={nodeRenderObject}
       warmupTicks={100}
