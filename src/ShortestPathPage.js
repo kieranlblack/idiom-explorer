@@ -34,7 +34,6 @@ const ShortestPathPage = () => {
     };
   }, [settings.otherGraphData]);
 
-
   const [avoidRareIdioms, setAvoidRareIdioms] = useState(true);
 
   const handleAvoidRareIdiomsChange = (event) => {
@@ -97,11 +96,14 @@ const ShortestPathPage = () => {
           />
         </Stack>
         <Stack spacing={2} direction="row">
-          <Button variant="outlined" onClick={onClick} disabled={!loaded} style={{flex: 1}}>
+          <Button variant="outlined" onClick={onClick} disabled={!loaded} style={{ flex: 1 }}>
             启动！
           </Button>
           <FormGroup>
-            <FormControlLabel control={<Checkbox checked={avoidRareIdioms} onChange={handleAvoidRareIdiomsChange}/>} label="避免生僻的成语" />
+            <FormControlLabel
+              control={<Checkbox checked={avoidRareIdioms} onChange={handleAvoidRareIdiomsChange} />}
+              label="避免生僻的成语"
+            />
           </FormGroup>
         </Stack>
       </Stack>
@@ -111,16 +113,21 @@ const ShortestPathPage = () => {
         </Typography>
       )}
       {shortestPath.length !== 0 && (
-        <Link
-          to={{
-            pathname: "/search_graph",
-            search: createSearchParams(shortestPath.map((idiom) => ["idiom", idiom])).toString(),
-          }}
-        >
-          <Button>点击去看在图里</Button>
-        </Link>
+        <>
+          <Stack spacing={3} direction="row" style={{alignItems: "center"}}>
+            <Link
+              to={{
+                pathname: "/search_graph",
+                search: createSearchParams(shortestPath.map((idiom) => ["idiom", idiom])).toString(),
+              }}
+            >
+              <Button>点击去看在图里</Button>
+            </Link>
+            <Typography>接龙长度：{shortestPath.length}</Typography>
+          </Stack>
+          <Path path={shortestPath} />
+        </>
       )}
-      <Path path={shortestPath} />
     </Stack>
   );
 };
