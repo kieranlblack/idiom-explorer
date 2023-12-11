@@ -51,7 +51,7 @@ const HelperPage = () => {
     }
     const targetChar = [...input].slice(-1);
     const matchingIdioms = endCharToConnected[targetChar] || [];
-    const sortedIdioms = Array.from(matchingIdioms).sort((idiom) => -1 * getIdiomInfo(idiom).frequency);
+    const sortedIdioms = Array.from(matchingIdioms).sort((a, b) => getIdiomInfo(b).frequency - getIdiomInfo(a).frequency);
     if (sortedIdioms.length === 0) {
       setError(true);
     }
