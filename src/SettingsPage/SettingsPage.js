@@ -14,15 +14,20 @@ const SettingsPage = () => {
   };
 
   return (
-    <Stack>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <Stack spacing={2}>
+      <FormControl style={{ minWidth: 120 }}>
         <InputLabel>搜索图用的数据集</InputLabel>
-        <Select value={settings.searchGraphData} label="搜索图用的数据集" onChange={handleSearchGraphDataChange}>
+        <Select
+          value={settings.searchGraphData}
+          label="搜索图用的数据集"
+          onChange={handleSearchGraphDataChange}
+          style={{ width: "fit-content" }}
+        >
           <MenuItem value={"/idiom_data/full_graph_data.json"}>所有的成语</MenuItem>
           <MenuItem value={"/idiom_data/common_graph_data.json"}>只有使用率比较高的成语</MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <FormControl style={{ minWidth: 120 }}>
         <InputLabel>其他图用的数据集</InputLabel>
         <Select value={settings.otherGraphData} label="其他图用的数据集" onChange={handleOtherGraphDataChange}>
           <MenuItem value={"/idiom_data/full_graph_data.json"}>所有的成语</MenuItem>
