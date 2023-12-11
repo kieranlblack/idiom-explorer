@@ -24,13 +24,15 @@ const IdiomCard = ({ idiom }) => {
               </Button>
             </Link>
           </div>
-          <Typography sx={{ mb: 1.5, textAlign: "center" }} color="text.secondary">
+          <Typography sx={{ textAlign: "center" }} color="text.secondary">
             {idiomInfo.pinyin}
           </Typography>
           <Typography variant="body2">
             解释： {idiomInfo.explanation}
             <br />
             例句：{idiomInfo.example === "无" ? "无" : `"${idiomInfo.example}"`}
+            <br />
+            对数频率: {Math.log(idiomInfo.frequency).toFixed(2)}
           </Typography>
         </CardContent>
       </Card>
