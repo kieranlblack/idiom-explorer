@@ -68,9 +68,9 @@ const HelperPage = () => {
   };
 
   return (
-    <Stack spacing={2} style={{ flex: 1, textAlign: "center" }}>
-      <Typography>输入成语或者字看可以用什么把它接起来。</Typography>
-      <Stack spacing={1} direction="row" alignItems="center" justifyContent="center">
+    <Stack spacing={1} style={{ flex: 1, textAlign: "center", alignItems: "center", display: "flex" }}>
+      <Stack spacing={2} style={{ textAlign: "center", alignItems: "stretch" }}>
+        <Typography>输入成语或者字看可以用什么把它接起来。</Typography>
         <TextField
           variant="outlined"
           placeholder="输入成语或者字"

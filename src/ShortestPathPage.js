@@ -70,28 +70,30 @@ const ShortestPathPage = () => {
   };
 
   return (
-    <Stack spacing={2} style={{ flex: 1, textAlign: "center" }}>
-      <Typography>找出连接两个成语的最短路径。</Typography>
-      <Stack direction="row" alignItems="center" justifyContent="center">
-        <TextField
-          label="开头"
-          variant="outlined"
-          placeholder="输入成语"
-          onKeyDown={handleKeyDown}
-          onChange={(event) => setIdiom(event, setStartIdiom)}
-        />
-        <IdiomChain length={3} />
-        <TextField
-          label="结尾"
-          variant="outlined"
-          placeholder="输入成语"
-          onKeyDown={handleKeyDown}
-          onChange={(event) => setIdiom(event, setEndIdiom)}
-        />
+    <Stack spacing={1} style={{ flex: 1, textAlign: "center", alignItems: "center", display: "flex" }}>
+      <Stack spacing={2} style={{ textAlign: "center", alignItems: "stretch" }}>
+        <Typography>找出连接两个成语的最短路径。</Typography>
+        <Stack direction="row" alignItems="center" justifyContent="center">
+          <TextField
+            label="开头"
+            variant="outlined"
+            placeholder="输入成语"
+            onKeyDown={handleKeyDown}
+            onChange={(event) => setIdiom(event, setStartIdiom)}
+          />
+          <IdiomChain length={3} />
+          <TextField
+            label="结尾"
+            variant="outlined"
+            placeholder="输入成语"
+            onKeyDown={handleKeyDown}
+            onChange={(event) => setIdiom(event, setEndIdiom)}
+          />
+        </Stack>
+        <Button variant="outlined" onClick={onClick} disabled={!loaded}>
+          启动！
+        </Button>
       </Stack>
-      <Button variant="outlined" onClick={onClick} disabled={!loaded}>
-        启动！
-      </Button>
       {error && (
         <Typography color="error">
           无法把"{startIdiom}"与"{endIdiom}"接起来
