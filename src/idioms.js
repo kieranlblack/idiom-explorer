@@ -17,10 +17,10 @@ export const weightFunction = (frequency) => {
   return 1;
 };
 
-export const findShortestPath = (startIdiom, endIdiom, graphData) => {
+export const findShortestPath = (startIdiom, endIdiom, graphData, avoidRareIdioms) => {
   const graph = Object.fromEntries(graphData.nodes.map((node) => [node, {}]));
   for (const [src, dst] of graphData.edges) {
-    graph[src][dst] = weightFunction(getIdiomInfo(dst).frequency);
+    graph[src][dst] = avoidRareIdioms ? weightFunction(getIdiomInfo(dst).frequency) : 1;
   }
 
   try {

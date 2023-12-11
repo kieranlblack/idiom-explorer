@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, FormGroup, Stack, TextField, Typography } from "@mui/material";
 import IdiomChain from "./IdiomChain";
 import { findShortestPath } from "./idioms";
 import Path from "./Path";
@@ -34,6 +34,12 @@ const ShortestPathPage = () => {
     };
   }, [settings.otherGraphData]);
 
+
+  const [avoidRareIdioms, setAvoidRareIdioms] = useState(true);
+
+  const handleAvoidRareIdiomsChange = (event) => {
+    setAvoidRareIdioms(event.target.checked);
+  };
   const [shortestPath, setShortestPath] = useState([]);
 
   const onClick = () => {
@@ -46,7 +52,7 @@ const ShortestPathPage = () => {
       return;
     }
 
-    const newShortestPath = findShortestPath(startIdiom, endIdiom, rawGraphData);
+    const newShortestPath = findShortestPath(startIdiom, endIdiom, rawGraphData, avoidRareIdioms);
     if (!newShortestPath.length) {
       setError(true);
       return;
@@ -90,9 +96,14 @@ const ShortestPathPage = () => {
             onChange={(event) => setIdiom(event, setEndIdiom)}
           />
         </Stack>
-        <Button variant="outlined" onClick={onClick} disabled={!loaded}>
-          启动！
-        </Button>
+        <Stack spacing={2} direction="row">
+          <Button variant="outlined" onClick={onClick} disabled={!loaded} style={{flex: 1}}>
+            启动！
+          </Button>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox checked={avoidRareIdioms} onChange={handleAvoidRareIdiomsChange}/>} label="避免生僻的成语" />
+          </FormGroup>
+        </Stack>
       </Stack>
       {error && (
         <Typography color="error">
