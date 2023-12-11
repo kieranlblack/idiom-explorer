@@ -21,7 +21,7 @@ const FullGraph = ({ graphData, size }) => {
     if (!forceGraphRef.current) {
       return;
     }
-    forceGraphRef.current.d3Force("charge").strength(-400);
+    forceGraphRef.current.d3Force("charge").strength(-600);
   }, [forceGraphRef]);
 
   return (
@@ -29,7 +29,7 @@ const FullGraph = ({ graphData, size }) => {
       ref={forceGraphRef}
       graphData={graphData}
       nodeThreeObject={nodeRenderObject}
-      warmupTicks={100}
+      warmupTicks={150}
       cooldownTicks={0}
       d3VelocityDecay={0.8}
       nodeResolution={2}
