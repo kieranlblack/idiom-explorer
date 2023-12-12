@@ -180,7 +180,7 @@ const ExpandableGraph = ({ graphData, forcedVisibleNodeIds, size }) => {
         linkColor={linkColor}
         nodeLabel={getNodeLabel}
         onNodeClick={handleNodeClick}
-        enableNodeDrag={false}
+        enableNodeDrag={true}
         width={size.width || undefined}
         height={size.height || undefined}
       />
